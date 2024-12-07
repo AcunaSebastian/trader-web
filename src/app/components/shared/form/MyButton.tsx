@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/react";
-import { Color, Size } from "../config/types";
+import { Color, Size } from "../../../shared/config/types";
 
 interface Props {
   as?: React.ElementType;

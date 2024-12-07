@@ -5,8 +5,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import useAuth from "../../hooks/useAuth";
-import { MyLogoutButton } from "../auth/MyLogoutButton";
+import useAuth from "../../../hooks/useAuth";
+import { MyLogoutButton } from "../form/MyLogoutButton";
 
 export const MyAvatar = () => {
   const { user } = useAuth();

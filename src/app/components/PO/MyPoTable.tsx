@@ -1,6 +1,5 @@
 import {
   Button,
-  Chip,
   Table,
   TableBody,
   TableCell,
@@ -9,57 +8,92 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { Link } from "@tanstack/react-router";
-import { PropertyViewIcon } from "../../shared/icons/PropertyViewIcon";
+import { PurchaseOrder } from "../../domain/PurchaseOrder";
 import { DocumentAttachmentIcon } from "../../shared/icons/DocumentAttachent";
+import { PropertyViewIcon } from "../../shared/icons/PropertyViewIcon";
+import { MyPoStatusChip } from "../shared/form/MyPoStatusChip";
 
-export const MyPoTable = () => {
+interface Props {
+  data: PurchaseOrder[];
+}
+
+const COLUMNS = [
+  { title: "#", allowsSorting: true },
+  { title: "Actions", allowsSorting: false },
+  { title: "Sawmill", allowsSorting: true },
+  { title: "PO", allowsSorting: true },
+  { title: "Grade", allowsSorting: true },
+  { title: "Measure", allowsSorting: true },
+  { title: "M3", allowsSorting: true },
+  { title: "Client", allowsSorting: true },
+  { title: "Port", allowsSorting: true },
+  { title: "Insp. Date", allowsSorting: true },
+  { title: "ETD", allowsSorting: true },
+  { title: "ETA", allowsSorting: true },
+  { title: "Status", allowsSorting: true },
+  { title: "Comments", allowsSorting: true },
+  { title: "Documents", allowsSorting: true },
+];
+
+export const MyPoTable = ({ data }: Props) => {
   return (
     <Table fullWidth>
       <TableHeader>
-        <TableColumn allowsSorting>#</TableColumn>
-        <TableColumn>Actions</TableColumn>
-        <TableColumn>Sawmill</TableColumn>
-        <TableColumn>PO</TableColumn>
-        <TableColumn>Grade</TableColumn>
-        <TableColumn>Measure</TableColumn>
-        <TableColumn>M3</TableColumn>
-        <TableColumn>Client</TableColumn>
-        <TableColumn>Port</TableColumn>
-        <TableColumn>Insp. Date</TableColumn>
-        <TableColumn>ETD</TableColumn>
-        <TableColumn>ETA</TableColumn>
-        <TableColumn>Comments</TableColumn>
-        <TableColumn>Documents</TableColumn>
+        {COLUMNS.map((column) => {
+          return (
+            <TableColumn
+              key={column.title}
+              allowsSorting={column.allowsSorting}
+            >
+              {column.title}
+            </TableColumn>
+          );
+        })}
       </TableHeader>
       <TableBody>
-        <TableRow key={1}>
-          <TableCell>15</TableCell>
-          <TableCell>
-            <Button isIconOnly color="default" size="sm" as={Link} to="/po/15">
-              <PropertyViewIcon size={20} color="white" />
-            </Button>
-          </TableCell>
-          <TableCell>Llasa</TableCell>
-          <TableCell>PO#070324MAR</TableCell>
-          <TableCell className="whitespace-nowrap">COL B NO BS 2</TableCell>
-          <TableCell className="whitespace-nowrap">32 x 90 x 2M UP</TableCell>
-          <TableCell>150</TableCell>
-          <TableCell>Super Woordlands</TableCell>
-          <TableCell>Klang, Malaysia</TableCell>
-          <TableCell className="whitespace-nowrap">12-05-2024</TableCell>
-          <TableCell className="whitespace-nowrap">08-05-2024</TableCell>
-          <TableCell className="whitespace-nowrap">26-06-2024</TableCell>
-          <TableCell>
-            <Chip radius="sm" variant="shadow" color="success">
-              Enviada
-            </Chip>
-          </TableCell>
-          <TableCell>
-            <Button isIconOnly size="sm" color="default">
-              <DocumentAttachmentIcon size={20} color="white" />
-            </Button>
-          </TableCell>
-        </TableRow>
+        {data?.map((el, idx) => {
+          return (
+            <TableRow key={el.id}>
+              <TableCell>{idx + 1}</TableCell>
+              <TableCell>
+                <Button
+                  isIconOnly
+                  color="default"
+                  size="sm"
+                  as={Link}
+                  to="/po/15"
+                >
+                  <PropertyViewIcon size={20} color="white" />
+                </Button>
+              </TableCell>
+              <TableCell>{el.sawmill}</TableCell>
+              <TableCell>{el.po}</TableCell>
+              <TableCell>{el.grade}</TableCell>
+              <TableCell>
+                {`${el.thikness} x ${el.width} x ${el.large}`}
+              </TableCell>
+              <TableCell>{el.quantity}</TableCell>
+              <TableCell>{el.client}</TableCell>
+              <TableCell>{el.port}</TableCell>
+              <TableCell>{el.inspectionDate}</TableCell>
+              <TableCell>{el.etd}</TableCell>
+              <TableCell>{el.eta}</TableCell>
+              <TableCell>
+                <MyPoStatusChip status={el.status} />
+              </TableCell>
+              <TableCell>{""}</TableCell>
+              <TableCell>
+                <Button isIconOnly size="sm" color="default">
+                  <DocumentAttachmentIcon size={20} color="white" />
+                </Button>
+              </TableCell>
+            </TableRow>
+          );
+        }) ?? (
+          <TableRow>
+            <TableCell>No data</TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );

@@ -1,8 +1,8 @@
 import { CircularProgress } from "@nextui-org/react";
 
 interface Props {
-  value: number;
-  maxValue: number;
+  value?: number;
+  maxValue?: number;
   valueLabel?: string;
   color?: "success" | "warning" | "danger" | "primary" | "secondary";
   classNames?: {

@@ -1,9 +1,9 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import AuthObserver from "./app/components/auth-observer";
 import useAuth from "./app/hooks/useAuth";
 import { routeTree } from "./routeTree.gen";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
+import { MyCircularProgress } from "./app/shared/MyCircularProgress";
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
@@ -14,20 +14,33 @@ declare module "@tanstack/react-router" {
 
 const router = createRouter({
   routeTree,
-  context: { user: undefined!, isLoggedIn: false },
+  context: { user: undefined!, isLoggedIn: false, errorMessage: "" },
 });
 
 function App() {
-  const { isLoading } = useAuth0();
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, user, isLoading, handleLogin, errorMessage } = useAuth();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      handleLogin();
+    }
+  }, [isLoggedIn, handleLogin]);
   return (
     <NextUIProvider>
       {isLoading ? (
-        <div>loading</div>
+        <div className="w-full h-screen flex flex-col items-center justify-center gap-2">
+          <MyCircularProgress
+            classNames={{ svg: "w-24 h-24" }}
+            color="secondary"
+          />
+          <span>Loading...</span>
+        </div>
       ) : (
         <>
-          <AuthObserver />
-          <RouterProvider router={router} context={{ isLoggedIn, user }} />
+          <RouterProvider
+            router={router}
+            context={{ isLoggedIn, user, errorMessage }}
+          />
         </>
       )}
     </NextUIProvider>

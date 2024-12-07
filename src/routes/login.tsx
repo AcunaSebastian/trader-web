@@ -1,8 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "@nextui-org/react";
 import { createFileRoute } from "@tanstack/react-router";
-import { MyLogoutButton } from "../app/shared/auth/MyLogoutButton";
-
+import { MyLogoutButton } from "../app/components/shared/form/MyLogoutButton";
 export const Route = createFileRoute("/login")({
   component: () => <LoginPage />,
 });

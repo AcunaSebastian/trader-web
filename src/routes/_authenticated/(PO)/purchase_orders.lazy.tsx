@@ -1,6 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { MyPoTable } from "../../../app/components/PO/MyPoTable";
 import { Pagination } from "@nextui-org/react";
+import { useGetPo } from "../../../app/hooks/useGetPo";
 
 export const Route = createLazyFileRoute(
   "/_authenticated/(PO)/purchase_orders"
@@ -9,6 +10,12 @@ export const Route = createLazyFileRoute(
 });
 
 function PurchaseOrdersPage() {
+  const { isLoading, data } = useGetPo();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <header>
@@ -16,7 +23,7 @@ function PurchaseOrdersPage() {
       </header>
       <main>
         <div className=" flex flex-col p-2 gap-6 w-full overflow-x-auto">
-          <MyPoTable />
+          <MyPoTable data={data} />
           <Pagination
             className=" flex justify-end w-full"
             showShadow
