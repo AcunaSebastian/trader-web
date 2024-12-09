@@ -4,6 +4,15 @@ import { Color } from "../../../shared/config/types";
 
 interface Props {
   status: PurchaseOrderStatus;
+  variant?:
+    | "shadow"
+    | "solid"
+    | "bordered"
+    | "light"
+    | "flat"
+    | "faded"
+    | "dot"
+    | undefined;
 }
 
 const statusMap: Record<PurchaseOrderStatus, { color: Color }> = {
@@ -14,9 +23,9 @@ const statusMap: Record<PurchaseOrderStatus, { color: Color }> = {
   REJECTED: { color: "danger" },
 };
 
-export const MyPoStatusChip = ({ status }: Props) => {
+export const MyPoStatusChip = ({ status, variant = "shadow" }: Props) => {
   return (
-    <Chip color={statusMap[status].color} variant="shadow">
+    <Chip color={statusMap[status].color} variant={variant}>
       {status}
     </Chip>
   );

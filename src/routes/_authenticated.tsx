@@ -21,4 +21,10 @@ export const Route = createFileRoute("/_authenticated")({
       <TanStackRouterDevtools />
     </>
   ),
+  validateSearch: (search) => {
+    return {
+      page: search.page ?? 1,
+      limit: search?.limit ?? 2,
+    };
+  },
 });

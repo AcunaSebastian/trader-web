@@ -1,36 +1,51 @@
 import { useCallback, useEffect, useState } from "react";
-import { getPosService } from "../services/pos/get-pos-service";
-import authStore from "../store/authStore";
-import { PurchaseOrder } from "../domain/PurchaseOrder";
 import toast from "react-hot-toast";
+import { DataPOType, getPosService } from "../services/pos/get-pos-service";
+import authStore from "../store/authStore";
+import { Route } from "../../routes/_authenticated";
 
 export function useGetPo() {
-  const [data, setData] = useState<PurchaseOrder[]>([]);
+  const search = Route.useSearch();
+
+  const [data, setData] = useState<DataPOType>({ register: [], total: 0 });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const token = authStore((state) => state.token);
-  const [firstLoad, setFirstLoad] = useState(true);
-  const getService = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const response = await getPosService({ token });
+  const getService = useCallback(
+    async ({ params = "" }: { params?: string }) => {
+      try {
+        console.log(params);
+        setIsLoading(true);
+        const response = await getPosService({ token, params });
 
-      if (!response.ok) {
-        toast.error(response.message);
+        console.log("data", response.data);
+
+        if (!response.ok) {
+          toast.error(response.message);
+        }
+        setData(response.data);
+        toast.success("Purchase Orders loaded");
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
       }
-      setData(response.data);
-      toast.success("Purchase Orders loaded");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [setIsLoading, token]);
+    },
+    [setIsLoading, token]
+  );
 
   useEffect(() => {
-    if (!firstLoad) return;
-    setFirstLoad(false);
-    getService();
-  }, [isLoading, getService, setFirstLoad, firstLoad]);
+    // if (!firstLoad) return;
+    console.log(search);
+    // setFirstLoad(false);
+    const query = `?${Object.entries(search)
+      .map((el) => el.map((el) => `${el}`).join("="))
+      .join("&")}`;
+
+    console.log("q", query);
+    getService({
+      params: query,
+    });
+  }, [getService, search]);
 
   return {
     isLoading,
