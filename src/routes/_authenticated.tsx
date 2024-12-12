@@ -23,8 +23,8 @@ export const Route = createFileRoute("/_authenticated")({
   ),
   validateSearch: (search) => {
     return {
-      page: search.page ?? 1,
-      limit: search?.limit ?? 2,
+      page: search?.page ?? 1,
+      limit: search?.limit ?? 10,
     };
   },
 });

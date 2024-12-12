@@ -13,17 +13,14 @@ export function useGetPo() {
   const getService = useCallback(
     async ({ params = "" }: { params?: string }) => {
       try {
-        console.log(params);
         setIsLoading(true);
         const response = await getPosService({ token, params });
-
-        console.log("data", response.data);
 
         if (!response.ok) {
           toast.error(response.message);
         }
         setData(response.data);
-        toast.success("Purchase Orders loaded");
+        // toast.success("Purchase Orders loaded");
       } catch (error) {
         console.log(error);
       } finally {
@@ -34,9 +31,6 @@ export function useGetPo() {
   );
 
   useEffect(() => {
-    // if (!firstLoad) return;
-    console.log(search);
-    // setFirstLoad(false);
     const query = `?${Object.entries(search)
       .map((el) => el.map((el) => `${el}`).join("="))
       .join("&")}`;

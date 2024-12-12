@@ -1,17 +1,14 @@
-import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { MyPoTable } from "../../../app/components/PO/MyPoTable";
 import { MyPagination } from "../../../app/components/shared/form/table/MyPagination";
 import { useGetPo } from "../../../app/hooks/useGetPo";
 
-export const Route = createLazyFileRoute(
-  "/_authenticated/(PO)/purchase_orders"
-)({
+export const Route = createFileRoute("/_authenticated/(PO)/purchase_orders")({
   component: PurchaseOrdersPage,
 });
 
 function PurchaseOrdersPage() {
   const { isLoading, data } = useGetPo();
-  const navigate = useNavigate({ from: "/purchase_orders" });
   const search = Route.useSearch<{ page: number; limit: number }>();
 
   if (isLoading) {
@@ -26,14 +23,7 @@ function PurchaseOrdersPage() {
       <main>
         <div className=" flex flex-col p-2 gap-6 w-full overflow-x-auto">
           <MyPoTable data={data.register} />
-          <MyPagination
-            total={data.total}
-            itemsPerPage={2}
-            initialPage={search.page}
-            onChangePage={(page: number) => {
-              navigate({ search: { page: page, limit: 2 } });
-            }}
-          />
+          <MyPagination total={data.total} initialPage={search.page} />
         </div>
       </main>
     </div>

@@ -16,15 +16,13 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedPOPurchaseordersImport } from './routes/_authenticated/(PO)/purchase_orders'
 import { Route as AuthenticatedPOPoPoIdImport } from './routes/_authenticated/(PO)/po.$poId'
 
 // Create Virtual Routes
 
 const AuthenticatedinspectionsInspectionsLazyImport = createFileRoute(
   '/_authenticated/(inspections)/inspections',
-)()
-const AuthenticatedPOPurchaseordersLazyImport = createFileRoute(
-  '/_authenticated/(PO)/purchase_orders',
 )()
 
 // Create/Update Routes
@@ -57,16 +55,12 @@ const AuthenticatedinspectionsInspectionsLazyRoute =
     ),
   )
 
-const AuthenticatedPOPurchaseordersLazyRoute =
-  AuthenticatedPOPurchaseordersLazyImport.update({
+const AuthenticatedPOPurchaseordersRoute =
+  AuthenticatedPOPurchaseordersImport.update({
     id: '/(PO)/purchase_orders',
     path: '/purchase_orders',
     getParentRoute: () => AuthenticatedRoute,
-  } as any).lazy(() =>
-    import('./routes/_authenticated/(PO)/purchase_orders.lazy').then(
-      (d) => d.Route,
-    ),
-  )
+  } as any)
 
 const AuthenticatedPOPoPoIdRoute = AuthenticatedPOPoPoIdImport.update({
   id: '/(PO)/po/$poId',
@@ -103,7 +97,7 @@ declare module '@tanstack/react-router' {
       id: '/_authenticated/(PO)/purchase_orders'
       path: '/purchase_orders'
       fullPath: '/purchase_orders'
-      preLoaderRoute: typeof AuthenticatedPOPurchaseordersLazyImport
+      preLoaderRoute: typeof AuthenticatedPOPurchaseordersImport
       parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/(inspections)/inspections': {
@@ -127,15 +121,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedPOPurchaseordersLazyRoute: typeof AuthenticatedPOPurchaseordersLazyRoute
+  AuthenticatedPOPurchaseordersRoute: typeof AuthenticatedPOPurchaseordersRoute
   AuthenticatedinspectionsInspectionsLazyRoute: typeof AuthenticatedinspectionsInspectionsLazyRoute
   AuthenticatedPOPoPoIdRoute: typeof AuthenticatedPOPoPoIdRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
-  AuthenticatedPOPurchaseordersLazyRoute:
-    AuthenticatedPOPurchaseordersLazyRoute,
+  AuthenticatedPOPurchaseordersRoute: AuthenticatedPOPurchaseordersRoute,
   AuthenticatedinspectionsInspectionsLazyRoute:
     AuthenticatedinspectionsInspectionsLazyRoute,
   AuthenticatedPOPoPoIdRoute: AuthenticatedPOPoPoIdRoute,
@@ -149,7 +142,7 @@ export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/': typeof AuthenticatedIndexRoute
-  '/purchase_orders': typeof AuthenticatedPOPurchaseordersLazyRoute
+  '/purchase_orders': typeof AuthenticatedPOPurchaseordersRoute
   '/inspections': typeof AuthenticatedinspectionsInspectionsLazyRoute
   '/po/$poId': typeof AuthenticatedPOPoPoIdRoute
 }
@@ -157,7 +150,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/': typeof AuthenticatedIndexRoute
-  '/purchase_orders': typeof AuthenticatedPOPurchaseordersLazyRoute
+  '/purchase_orders': typeof AuthenticatedPOPurchaseordersRoute
   '/inspections': typeof AuthenticatedinspectionsInspectionsLazyRoute
   '/po/$poId': typeof AuthenticatedPOPoPoIdRoute
 }
@@ -167,7 +160,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/_authenticated/(PO)/purchase_orders': typeof AuthenticatedPOPurchaseordersLazyRoute
+  '/_authenticated/(PO)/purchase_orders': typeof AuthenticatedPOPurchaseordersRoute
   '/_authenticated/(inspections)/inspections': typeof AuthenticatedinspectionsInspectionsLazyRoute
   '/_authenticated/(PO)/po/$poId': typeof AuthenticatedPOPoPoIdRoute
 }
@@ -237,7 +230,7 @@ export const routeTree = rootRoute
       "parent": "/_authenticated"
     },
     "/_authenticated/(PO)/purchase_orders": {
-      "filePath": "_authenticated/(PO)/purchase_orders.lazy.tsx",
+      "filePath": "_authenticated/(PO)/purchase_orders.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/(inspections)/inspections": {
