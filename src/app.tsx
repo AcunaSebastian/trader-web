@@ -1,9 +1,9 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import useAuth from "./app/hooks/useAuth";
+import useAuth from "./features/authentication/hooks/useAuth";
 import { routeTree } from "./routeTree.gen";
 import { useEffect } from "react";
-import { MyCircularProgress } from "./app/shared/MyCircularProgress";
+import { MyCircularProgress } from "./shared/components/MyCircularProgress";
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {

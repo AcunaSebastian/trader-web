@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { MyNavbar } from "../app/components/shared/menu/MyNavbar";
 import toast from "react-hot-toast";
+import { MyNavbar } from "../shared/components/menu/MyNavbar";
 
 export const Route = createFileRoute("/_authenticated")({
   beforeLoad: ({ context }) => {

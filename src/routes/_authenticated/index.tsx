@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MyPurchaseOrderCard } from "../../app/components/home/MyPurchaseOrderCard";
-import { MyCircularProgress } from "../../app/shared/MyCircularProgress";
+import { MyPurchaseOrderCard } from "../../features/home/components/MyPurchaseOrderCard";
+import { MyCircularProgress } from "../../shared/components/MyCircularProgress";
 
 export const Route = createFileRoute("/_authenticated/")({
   component: Home,
