@@ -8,6 +8,7 @@ interface Props {
   children?: React.ReactNode;
   onClick?: () => void;
   size?: Size;
+  isIconOnly?: boolean;
 }
 
 export const MyButton = ({
@@ -17,11 +18,15 @@ export const MyButton = ({
   children,
   onClick,
   size,
+  isIconOnly,
+  ...props
 }: Props) => {
   return (
     <Button
       as={as}
       color={color}
+      {...props}
+      isIconOnly={isIconOnly}
       size={size}
       className={className}
       onClick={onClick}

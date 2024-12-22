@@ -1,45 +1,49 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from "@nextui-org/react";
+import { Table, TableBody, TableColumn, TableHeader } from "@nextui-org/react";
+import { DataTable } from "../../../adapters/data_table_adapter";
+import { MyTableColumns } from "../../../config/interfaces";
+import { MyCircularProgress } from "../../MyCircularProgress";
 
-export interface MyTableProps {
+export interface MyTableProps<T> {
   columns: MyTableColumns[];
-  data: unknown[];
-  renderBody?(rowItem: unknown): JSX.Element;
+  data: DataTable<T>[];
+  isLoading: boolean;
+  renderBody(rowItem: T): JSX.Element;
+  isFullWidthTable?: boolean;
+  isHeaderSticky?: boolean;
 }
 
-export interface MyTableColumns {
-  title: string;
-  allowsSorting?: boolean;
-}
-
-export const MyTable = ({ columns, data }: MyTableProps) => {
+export function MyTable<T>({
+  isLoading,
+  isFullWidthTable,
+  isHeaderSticky,
+  columns,
+  data,
+  renderBody,
+}: MyTableProps<T>) {
   return (
-    <Table fullWidth>
+    <Table fullWidth={isFullWidthTable} isHeaderSticky={isHeaderSticky}>
       <TableHeader>
-        {columns.map((column) => (
-          <TableColumn allowsSorting={column.allowsSorting}>
-            {column.title}
-          </TableColumn>
-        ))}
+        {columns.map((column) => {
+          return (
+            <TableColumn
+              key={column.title}
+              allowsSorting={column.allowsSorting}
+            >
+              {column.title}
+            </TableColumn>
+          );
+        })}
       </TableHeader>
-      <TableBody>
-        {data.length == 0 ? (
-          <TableRow>
-            <TableCell colSpan={columns.length}>No data</TableCell>
-          </TableRow>
-        ) : (
-          <div></div>
-          // data.map((rowItem) => {
-          //   return <TableRow> {renderBody?.(rowItem)} </TableRow>;
-          // })
-        )}
+      <TableBody
+        isLoading={isLoading}
+        items={data}
+        loadingContent={
+          <MyCircularProgress valueLabel="Loading..." color="primary" />
+        }
+        emptyContent="No Data"
+      >
+        {(items) => renderBody?.(items)}
       </TableBody>
     </Table>
   );
-};
+}

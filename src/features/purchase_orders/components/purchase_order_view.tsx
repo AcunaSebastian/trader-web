@@ -8,9 +8,9 @@ export default function PurchaseOrderView() {
   const { isLoading, data, total } = useGetPo();
   const search = Route.useSearch<{ page: number; limit: number }>();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div>
@@ -19,7 +19,7 @@ export default function PurchaseOrderView() {
       </header>
       <main>
         <div className=" flex flex-col p-2 gap-6 w-full overflow-x-auto">
-          <MyPoTable data={data} />
+          <MyPoTable data={data} isLoading={isLoading} />
           <MyPagination total={total} initialPage={search.page} />
         </div>
       </main>
