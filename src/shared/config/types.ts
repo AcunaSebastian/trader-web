@@ -7,4 +7,14 @@ export type Color =
   | "danger"
   | undefined;
 
+export type Variant =
+  | "solid"
+  | "bordered"
+  | "light"
+  | "flat"
+  | "faded"
+  | "shadow"
+  | "ghost"
+  | undefined;
+
 export type Size = "sm" | "md" | "lg" | undefined;

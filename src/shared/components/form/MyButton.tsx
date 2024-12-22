@@ -1,14 +1,17 @@
 import { Button } from "@nextui-org/react";
-import { Color, Size } from "../../config/types";
+import { Color, Size, Variant } from "../../config/types";
 
 interface Props {
   as?: React.ElementType;
   color?: Color;
+  variant?: Variant;
   className?: string;
   children?: React.ReactNode;
   onClick?: () => void;
   size?: Size;
   isIconOnly?: boolean;
+  startContent?: React.ReactNode;
+  endContent?: React.ReactNode;
 }
 
 export const MyButton = ({
@@ -19,6 +22,8 @@ export const MyButton = ({
   onClick,
   size,
   isIconOnly,
+  variant,
+  startContent,
   ...props
 }: Props) => {
   return (
@@ -26,6 +31,8 @@ export const MyButton = ({
       as={as}
       color={color}
       {...props}
+      startContent={startContent}
+      variant={variant}
       isIconOnly={isIconOnly}
       size={size}
       className={className}

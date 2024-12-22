@@ -1,7 +1,9 @@
+import dayjs from "dayjs";
 import { MyButton } from "../../../shared/components/form/MyButton";
 import { MyPoStatusChip } from "../../../shared/components/form/MyPoStatusChip";
 import { PropertyViewIcon } from "../../../shared/icons/PropertyViewIcon";
 import { PurchaseOrder } from "../model/PurchaseOrder";
+import { DATE_FORMATS } from "../../../shared/config/constant";
 
 interface RenderCellProps {
   columnKey: string;
@@ -16,8 +18,8 @@ export const RenderPOCell = ({
   // const cell = item[columnKey];
   switch (columnKey) {
     case "#":
-    default:
       return <span>{item.id}</span>;
+
     case "Actions":
       return (
         <MyButton
@@ -46,14 +48,20 @@ export const RenderPOCell = ({
     case "Insp":
       return <span>{item.inspectionDate}</span>;
     case "ETD":
-      return <span>{item.etd}</span>;
+      return (
+        <span>{dayjs(item.etd).format(DATE_FORMATS["DD-MM-YYYY HH:mm"])}</span>
+      );
     case "ETA":
-      return <span>{item.eta}</span>;
+      return (
+        <span>{dayjs(item.eta).format(DATE_FORMATS["DD-MM-YYYY HH:mm"])}</span>
+      );
     case "Status":
       return <MyPoStatusChip status={item.status} />;
     case "Comments":
       return <span></span>;
     case "Documents":
       return <span></span>;
+    default:
+      return "";
   }
 };
